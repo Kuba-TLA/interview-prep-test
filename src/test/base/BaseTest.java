@@ -15,6 +15,7 @@ public class BaseTest {
 
     @BeforeMethod
     public void setUp(){
+        initializeDriver("chrome");
         driver.get("https://interview-prep-test.herokuapp.com/");
     }
 
