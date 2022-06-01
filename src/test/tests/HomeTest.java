@@ -6,43 +6,39 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pages.HomePage;
 import pages.LoginPage;
 
 import java.util.List;
 
 public class HomeTest extends BaseTest {
+    LoginPage loginPage;
+    HomePage homePage;
+
+    @BeforeMethod
+    public void localSetUp(){
+        loginPage = new LoginPage(getDriver());
+        homePage = new HomePage(getDriver());
+    }
 
     @Test(testName = "IN-1 - Test Title", description = "Validating title on home page")
     public void test01(){
-        LoginPage loginPage = new LoginPage(getDriver());
-        //signing in as a user
-        loginPage.username.sendKeys("test@yahoo.com");
-
-        getDriver().findElement(By.name("password")).sendKeys("test123");
-        //getDriver().findElement(By.xpath("//div[@class='container']/button")).click();
-
-        loginPage.loginBtn.click();
-
+        loginPage.signIn();
         Assert.assertEquals(getDriver().getTitle(), "Interview App");
     }
 
     @Test(testName = "IN-2 - Test Sign Out button", description = "Testing visibility of the Sign out button")
     public void test02(){
-        //signing in as a user
-        getDriver().findElement(By.name("email")).sendKeys("test@yahoo.com");
-        getDriver().findElement(By.name("password")).sendKeys("test123");
-        getDriver().findElement(By.xpath("//div[@class='container']/button")).click();
-        Assert.assertTrue(getDriver().findElement(By.xpath("//nav//a/u[text()='Sign out']")).isEnabled());
+        loginPage.signIn();
+        Assert.assertTrue(homePage.signOutBtn.isEnabled());
     }
 
     @Test(testName = "IN-2 - Test Manage Access button", description = "Testing button is not visible")
     public void test03(){
-        //signing in as a user
-        getDriver().findElement(By.name("email")).sendKeys("test@yahoo.com");
-        getDriver().findElement(By.name("password")).sendKeys("test123");
-        getDriver().findElement(By.xpath("//div[@class='container']/button")).click();
-        List<WebElement> elementList = getDriver().findElements(By.xpath("//*[text()='Manage Access']"));
+        loginPage.signIn();
+        List<WebElement> elementList = homePage.manageAccessBtns;
         Assert.assertEquals(elementList.size(), 0);
     }
 
