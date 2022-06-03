@@ -26,20 +26,23 @@ public class HomeTest extends BaseTest {
     @Test(testName = "IN-1 - Test Title", description = "Validating title on home page")
     public void test01(){
         loginPage.signIn();
+
         Assert.assertEquals(getDriver().getTitle(), "Interview App");
     }
 
     @Test(testName = "IN-2 - Test Sign Out button", description = "Testing visibility of the Sign out button")
     public void test02(){
         loginPage.signIn();
+        extentManager.logScreenshot("Test log message here");
         Assert.assertTrue(homePage.signOutBtn.isEnabled());
     }
 
     @Test(testName = "IN-2 - Test Manage Access button", description = "Testing button is not visible")
     public void test03(){
         loginPage.signIn();
+        extentManager.logScreenshot();
         List<WebElement> elementList = homePage.manageAccessBtns;
-        Assert.assertEquals(elementList.size(), 0);
+        Assert.assertEquals(elementList.size(), 100);
     }
 
     @Test(testName = "IN-3 - Default dashboards",  description = "Validate 3 dashboards are present")
@@ -53,9 +56,11 @@ public class HomeTest extends BaseTest {
             Assert.assertTrue(getDriver().findElement(
                     By.xpath("//form[@class='form-inline']//button[text()='" + text + "']")).isEnabled());
         }
+        extentManager.logScreenshot("This is a test title for screenshot");
     }
 
-    @Test(testName = "IN-4 - Statement Do's section", description = "Verify user can add a statement in Do's section")
+    @Test(testName = "IN-4 - Statement Do's section",
+            description = "Verify user can add a statement in Do's section", enabled = false)
     public void test05(){
         //signing in as a user
         getDriver().findElement(By.name("email")).sendKeys("test@yahoo.com");
@@ -83,7 +88,8 @@ public class HomeTest extends BaseTest {
         Assert.assertEquals(actualText, expectedTest);
     }
 
-    @Test(testName = "IN-4 - Statement Dont's section", description = "Verify user can add a statement in Dont's section")
+    @Test(testName = "IN-4 - Statement Dont's section",
+            description = "Verify user can add a statement in Dont's section", enabled = false)
     public void test06(){
         //signing in as a user
         getDriver().findElement(By.name("email")).sendKeys("test@yahoo.com");
